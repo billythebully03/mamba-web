@@ -47,6 +47,8 @@
 
     body::-webkit-scrollbar { display: none; }
 
+    /* HEADER */
+
     .header {
       position: fixed;
       inset: 0 0 auto;
@@ -59,6 +61,8 @@
       background: linear-gradient(to bottom, #000 38%, rgba(0,0,0,.96) 60%, rgba(0,0,0,.72) 78%, transparent);
     }
 
+    /* BRAND */
+
     .brand {
       display: flex;
       align-items: center;
@@ -67,12 +71,16 @@
       pointer-events: none;
     }
 
-    .brand-logo {
+    .logo {
+      width: 30px;
       height: 30px;
-      width: auto;
-      object-fit: contain;
-      /* Белый исходник окрашивается в точный акцентный цвет */
-      filter: brightness(0) saturate(100%) invert(22%) sepia(91%) saturate(4400%) hue-rotate(256deg) brightness(91%) contrast(95%);
+      flex: 0 0 30px;
+      background: var(--accent);
+      -webkit-mask: url("./membu.png") center / contain no-repeat;
+      mask: url("./membu.png") center / contain no-repeat;
+      opacity: 0;
+      filter: blur(5px);
+      transition: opacity .65s ease, filter .65s ease;
     }
 
     .brand-label {
@@ -81,12 +89,73 @@
       line-height: 1;
       color: #fff;
       white-space: nowrap;
+      transform: translateX(0);
+      transition: transform .8s cubic-bezier(.2,.8,.2,1);
     }
 
+    /* INTRO */
+
+    .intro-word {
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: flex;
+      align-items: center;
+      height: 32px;
+      color: var(--accent);
+      font-family: "Super Bubble", sans-serif;
+      font-size: 22px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .intro-word span {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(7px);
+      animation: letter-in .35s ease forwards;
+      animation-delay: calc(var(--i) * 38ms);
+    }
+
+    .brand-label.intro-label {
+      opacity: 0;
+      animation: label-in .45s ease forwards;
+      animation-delay: 430ms;
+    }
+
+    @keyframes letter-in {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes label-in {
+      to { opacity: 1; }
+    }
+
+    .brand.finished .intro-word {
+      opacity: 0;
+      filter: blur(7px);
+      transition: opacity .7s ease, filter .7s ease;
+    }
+
+    .brand.finished .logo {
+      opacity: 1;
+      filter: blur(0);
+    }
+
+    .brand.finished .brand-label {
+      transform: translateX(0);
+    }
+
+    /* AVATAR */
+
     .avatar {
+      position: relative;
       width: 34px;
       height: 34px;
-      padding: 1px;
+      padding: 2px;
       flex-shrink: 0;
       border-radius: 50%;
       background: var(--accent);
@@ -121,19 +190,21 @@
       animation: shimmer 1.4s ease-in-out infinite;
     }
 
-    .avatar { position: relative; }
-
     .avatar.loaded .avatar-placeholder { display: none; }
 
     @keyframes shimmer {
       50% { background: #383838; }
     }
 
+    /* CONTENT */
+
     main {
       min-height: 100vh;
       min-height: 100dvh;
       padding: calc(76px + env(safe-area-inset-top)) 20px 60px;
     }
+
+    /* FOOTER */
 
     .footer {
       position: fixed;
@@ -158,9 +229,10 @@
 
 <body>
   <header class="header">
-    <div class="brand">
-      <img src="./membu.png" alt="Membu" class="brand-logo">
-      <span class="brand-label">LABS</span>
+    <div class="brand" id="brand">
+      <div class="intro-word" id="introWord"></div>
+      <div class="logo"></div>
+      <span class="brand-label intro-label">LABS</span>
     </div>
 
     <div class="avatar" id="avatar">
@@ -186,6 +258,27 @@
       tg.setHeaderColor("#000000");
       tg.setBackgroundColor("#000000");
     }
+
+    // INTRO ANIMATION
+
+    const brand = document.getElementById("brand");
+    const introWord = document.getElementById("introWord");
+
+    const letters = "MEMBU";
+
+    [...letters].forEach((letter, index) => {
+      const span = document.createElement("span");
+      span.textContent = letter;
+      span.style.setProperty("--i", index);
+      introWord.appendChild(span);
+    });
+
+    // После появления букв даём заставке немного пожить
+    setTimeout(() => {
+      brand.classList.add("finished");
+    }, 2200);
+
+    // TELEGRAM AVATAR
 
     const avatar = document.getElementById("avatar");
     const avatarImage = document.getElementById("avatarImage");
