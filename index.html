@@ -64,74 +64,54 @@
     /* BRAND */
 
     .brand {
+      position: relative;
       display: flex;
       align-items: center;
-      gap: 9px;
       height: 32px;
       pointer-events: none;
     }
 
-    .logo {
-      width: 30px;
-      height: 30px;
-      flex: 0 0 30px;
-      background: var(--accent);
-      -webkit-mask: url("./membu.png") center / contain no-repeat;
-      mask: url("./membu.png") center / contain no-repeat;
-      opacity: 0;
-      filter: blur(5px);
-      transition: opacity .65s ease, filter .65s ease;
-    }
-
-    .brand-label {
-      font-family: "Super Bubble", sans-serif;
-      font-size: 22px;
-      line-height: 1;
-      color: #fff;
-      white-space: nowrap;
-      transform: translateX(0);
-      transition: transform .8s cubic-bezier(.2,.8,.2,1);
-    }
-
-    /* INTRO */
-
     .intro-word {
-      position: absolute;
-      left: 0;
-      top: 0;
       display: flex;
       align-items: center;
       height: 32px;
-      color: var(--accent);
       font-family: "Super Bubble", sans-serif;
       font-size: 22px;
       line-height: 1;
+      color: var(--accent);
       white-space: nowrap;
     }
 
     .intro-word span {
       display: inline-block;
       opacity: 0;
-      transform: translateY(7px);
-      animation: letter-in .35s ease forwards;
-      animation-delay: calc(var(--i) * 38ms);
+      transform: translateY(5px);
+      animation: letter-in .32s ease forwards;
+      animation-delay: calc(var(--i) * 42ms);
     }
 
-    .brand-label.intro-label {
+    .brand-label {
+      margin-left: 8px;
+      font-family: "Super Bubble", sans-serif;
+      font-size: 22px;
+      line-height: 1;
+      color: #fff;
+      white-space: nowrap;
+      transition: transform .85s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .logo {
+      position: absolute;
+      left: 0;
+      top: 1px;
+      width: 30px;
+      height: 30px;
+      background: var(--accent);
+      -webkit-mask: url("./membu.png") center / contain no-repeat;
+      mask: url("./membu.png") center / contain no-repeat;
       opacity: 0;
-      animation: label-in .45s ease forwards;
-      animation-delay: 430ms;
-    }
-
-    @keyframes letter-in {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes label-in {
-      to { opacity: 1; }
+      filter: blur(5px);
+      transition: opacity .7s ease, filter .7s ease;
     }
 
     .brand.finished .intro-word {
@@ -146,7 +126,14 @@
     }
 
     .brand.finished .brand-label {
-      transform: translateX(0);
+      transform: translateX(-34px);
+    }
+
+    @keyframes letter-in {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* AVATAR */
@@ -232,7 +219,7 @@
     <div class="brand" id="brand">
       <div class="intro-word" id="introWord"></div>
       <div class="logo"></div>
-      <span class="brand-label intro-label">LABS</span>
+      <span class="brand-label">LABS</span>
     </div>
 
     <div class="avatar" id="avatar">
@@ -259,24 +246,21 @@
       tg.setBackgroundColor("#000000");
     }
 
-    // INTRO ANIMATION
+    // INTRO
 
     const brand = document.getElementById("brand");
     const introWord = document.getElementById("introWord");
 
-    const letters = "MEMBU";
-
-    [...letters].forEach((letter, index) => {
+    [..."MEMBU"].forEach((letter, index) => {
       const span = document.createElement("span");
       span.textContent = letter;
       span.style.setProperty("--i", index);
       introWord.appendChild(span);
     });
 
-    // После появления букв даём заставке немного пожить
     setTimeout(() => {
       brand.classList.add("finished");
-    }, 2200);
+    }, 2300);
 
     // TELEGRAM AVATAR
 
