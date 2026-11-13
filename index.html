@@ -45,7 +45,9 @@
       overflow-x: hidden;
     }
 
-    body::-webkit-scrollbar { display: none; }
+    body::-webkit-scrollbar {
+      display: none;
+    }
 
     /* HEADER */
 
@@ -58,85 +60,111 @@
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      background: linear-gradient(to bottom, #000 38%, rgba(0,0,0,.96) 60%, rgba(0,0,0,.72) 78%, transparent);
+      background: linear-gradient(
+        to bottom,
+        #000 38%,
+        rgba(0,0,0,.96) 60%,
+        rgba(0,0,0,.72) 78%,
+        transparent
+      );
     }
 
     /* BRAND */
 
     .brand {
-      position: relative;
       display: flex;
       align-items: center;
+      gap: 9px;
       height: 32px;
       pointer-events: none;
     }
 
-    .intro-word {
+    .brand-word {
+      position: relative;
+      display: flex;
+      align-items: center;
+      flex: 0 0 auto;
+      height: 32px;
+      width: var(--intro-width, max-content);
+      overflow: hidden;
+      transition: width .9s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .intro-text {
       display: flex;
       align-items: center;
       height: 32px;
-      font-family: "Super Bubble", sans-serif;
-      font-size: 22px;
-      line-height: 1;
-      color: var(--accent);
       white-space: nowrap;
+      color: var(--accent);
+      font: 22px/1 "Super Bubble", sans-serif;
+      transition:
+        opacity .65s ease,
+        filter .85s ease,
+        transform .85s ease;
     }
 
-    .intro-word span {
+    .intro-text span,
+    .brand-label span {
       display: inline-block;
       opacity: 0;
-      transform: translateY(5px);
-      animation: letter-in .32s ease forwards;
-      animation-delay: calc(var(--i) * 42ms);
-    }
-
-    .brand-label {
-      margin-left: 8px;
-      font-family: "Super Bubble", sans-serif;
-      font-size: 22px;
-      line-height: 1;
-      color: #fff;
-      white-space: nowrap;
-      transition: transform .85s cubic-bezier(.2,.8,.2,1);
-    }
-
-    .logo {
-      position: absolute;
-      left: 0;
-      top: 1px;
-      width: 30px;
-      height: 30px;
-      background: var(--accent);
-      -webkit-mask: url("./membu.png") center / contain no-repeat;
-      mask: url("./membu.png") center / contain no-repeat;
-      opacity: 0;
-      filter: blur(5px);
-      transition: opacity .7s ease, filter .7s ease;
-    }
-
-    .brand.finished .intro-word {
-      opacity: 0;
-      filter: blur(7px);
-      transition: opacity .7s ease, filter .7s ease;
-    }
-
-    .brand.finished .logo {
-      opacity: 1;
-      filter: blur(0);
-    }
-
-    .brand.finished .brand-label {
-      transform: translateX(-34px);
+      transform: translateY(4px);
+      filter: blur(2px);
+      animation: letter-in .4s cubic-bezier(.2, .8, .2, 1) forwards;
+      animation-delay: calc(var(--i) * 30ms);
     }
 
     @keyframes letter-in {
       to {
         opacity: 1;
         transform: translateY(0);
+        filter: blur(0);
       }
     }
 
-    /* AVATAR */
+    .logo {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: var(--logo-width, 30px);
+      height: 30px;
+      background: var(--accent);
+      -webkit-mask: url("./membu.png") center / contain no-repeat;
+      mask: url("./membu.png") center / contain no-repeat;
+      opacity: 0;
+      filter: blur(5px);
+      transform: translateY(-50%) scale(.96);
+      transition:
+        opacity .8s ease,
+        filter .85s ease,
+        transform .85s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .brand-label {
+      display: flex;
+      align-items: center;
+      height: 32px;
+      white-space: nowrap;
+      color: #fff;
+      font: 22px/1 "Super Bubble", sans-serif;
+    }
+
+    .brand.finished .brand-word {
+      width: var(--logo-width, 30px);
+    }
+
+    .brand.finished .intro-text {
+      opacity: 0;
+      filter: blur(8px);
+      transform: translateX(-3px) scale(.985);
+    }
+
+    .brand.finished .logo {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(-50%) scale(1);
+    }
+
+    /* TELEGRAM AVATAR */
 
     .avatar {
       position: relative;
@@ -155,6 +183,7 @@
       padding: 2px;
       border-radius: 50%;
       background: #000;
+      overflow: hidden;
     }
 
     .avatar-image {
@@ -167,7 +196,9 @@
       transition: opacity .2s ease;
     }
 
-    .avatar.loaded .avatar-image { opacity: 1; }
+    .avatar.loaded .avatar-image {
+      opacity: 1;
+    }
 
     .avatar-placeholder {
       position: absolute;
@@ -177,10 +208,14 @@
       animation: shimmer 1.4s ease-in-out infinite;
     }
 
-    .avatar.loaded .avatar-placeholder { display: none; }
+    .avatar.loaded .avatar-placeholder {
+      display: none;
+    }
 
     @keyframes shimmer {
-      50% { background: #383838; }
+      50% {
+        background: #383838;
+      }
     }
 
     /* CONTENT */
@@ -217,9 +252,12 @@
 <body>
   <header class="header">
     <div class="brand" id="brand">
-      <div class="intro-word" id="introWord"></div>
-      <div class="logo"></div>
-      <span class="brand-label">LABS</span>
+      <div class="brand-word" id="brandWord">
+        <span class="intro-text" id="introText">MEMBU</span>
+        <span class="logo" id="logo"></span>
+      </div>
+
+      <span class="brand-label" id="brandLabel">LABS</span>
     </div>
 
     <div class="avatar" id="avatar">
@@ -246,21 +284,49 @@
       tg.setBackgroundColor("#000000");
     }
 
-    // INTRO
+    // INTRO ANIMATION
 
     const brand = document.getElementById("brand");
-    const introWord = document.getElementById("introWord");
+    const brandWord = document.getElementById("brandWord");
+    const introText = document.getElementById("introText");
+    const brandLabel = document.getElementById("brandLabel");
 
-    [..."MEMBU"].forEach((letter, index) => {
-      const span = document.createElement("span");
-      span.textContent = letter;
-      span.style.setProperty("--i", index);
-      introWord.appendChild(span);
-    });
+    function splitLetters(element, text, offset = 0) {
+      element.textContent = "";
 
-    setTimeout(() => {
-      brand.classList.add("finished");
-    }, 2300);
+      [...text].forEach((letter, index) => {
+        const span = document.createElement("span");
+        span.textContent = letter;
+        span.style.setProperty("--i", index + offset);
+        element.appendChild(span);
+      });
+    }
+
+    async function startIntro() {
+      await document.fonts.load('22px "Super Bubble"');
+
+      splitLetters(introText, "MEMBU");
+      splitLetters(brandLabel, "LABS", 6);
+
+      const wordWidth = introText.getBoundingClientRect().width;
+      brandWord.style.setProperty("--intro-width", `${wordWidth}px`);
+
+      const logoAsset = new Image();
+
+      logoAsset.onload = () => {
+        const width = 30 * logoAsset.naturalWidth / logoAsset.naturalHeight;
+        brandWord.style.setProperty("--logo-width", `${width}px`);
+      };
+
+      logoAsset.src = "./membu.png";
+
+      // Пауза после появления всей надписи
+      setTimeout(() => {
+        brand.classList.add("finished");
+      }, 2300);
+    }
+
+    startIntro();
 
     // TELEGRAM AVATAR
 
