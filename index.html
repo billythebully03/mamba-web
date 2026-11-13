@@ -3,12 +3,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#000000">
   <title>Membu Labs</title>
 
@@ -18,144 +13,82 @@
     @font-face {
       font-family: "Super Bubble";
       src: url("./Super Bubble.ttf") format("truetype");
-      font-weight: normal;
-      font-style: normal;
       font-display: swap;
     }
 
     :root {
-      --background: #000000;
-      --text: #ffffff;
       --accent: #6A2FE7;
-      --skeleton: #242424;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-
       -webkit-user-select: none;
       user-select: none;
-
       -webkit-tap-highlight-color: transparent;
     }
 
-    html {
+    html, body {
       width: 100%;
       min-height: 100%;
-      background: var(--background);
-
+      background: #000;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       overscroll-behavior: none;
       scrollbar-width: none;
     }
 
-    html::-webkit-scrollbar,
-    body::-webkit-scrollbar {
-      display: none;
-    }
-
     body {
-      width: 100%;
       min-height: 100vh;
       min-height: 100dvh;
-
-      background: var(--background);
-      color: var(--text);
-
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        sans-serif;
-
       overflow-x: hidden;
-      overscroll-behavior-y: none;
     }
 
-    /* HEADER */
+    body::-webkit-scrollbar { display: none; }
 
     .header {
       position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 100;
-
-      width: 100%;
+      inset: 0 0 auto;
+      z-index: 10;
       height: calc(76px + env(safe-area-inset-top));
-
-      padding:
-        calc(22px + env(safe-area-inset-top))
-        22px
-        0;
-
+      padding: calc(22px + env(safe-area-inset-top)) 20px 0;
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-
-      background: linear-gradient(
-        to bottom,
-        #000000 0%,
-        #000000 38%,
-        rgba(0, 0, 0, 0.96) 60%,
-        rgba(0, 0, 0, 0.72) 78%,
-        rgba(0, 0, 0, 0) 100%
-      );
-
-      border: none;
-      outline: none;
+      background: linear-gradient(to bottom, #000 38%, rgba(0,0,0,.96) 60%, rgba(0,0,0,.72) 78%, transparent);
     }
-
-    /* BRAND */
 
     .brand {
       display: flex;
       align-items: center;
       gap: 9px;
-
       height: 32px;
       pointer-events: none;
     }
 
     .brand-logo {
-      display: block;
-
-      width: auto;
       height: 30px;
-
+      width: auto;
       object-fit: contain;
-
-      filter: brightness(0) saturate(100%)
-        invert(25%) sepia(91%) saturate(3210%)
-        hue-rotate(252deg) brightness(92%) contrast(95%);
+      /* Белый исходник окрашивается в точный акцентный цвет */
+      filter: brightness(0) saturate(100%) invert(22%) sepia(91%) saturate(4400%) hue-rotate(256deg) brightness(91%) contrast(95%);
     }
 
     .brand-label {
       font-family: "Super Bubble", sans-serif;
-
       font-size: 22px;
       line-height: 1;
-
-      color: var(--text);
-      letter-spacing: 0.2px;
-
+      color: #fff;
       white-space: nowrap;
     }
 
-    /* TELEGRAM AVATAR */
-
     .avatar {
-      position: relative;
-
       width: 34px;
       height: 34px;
-
+      padding: 1px;
       flex-shrink: 0;
       border-radius: 50%;
-
-      padding: 2px;
-
       background: var(--accent);
       overflow: hidden;
     }
@@ -163,142 +96,85 @@
     .avatar-inner {
       width: 100%;
       height: 100%;
-
-      border-radius: 50%;
       padding: 2px;
-
-      background: #000000;
-      overflow: hidden;
+      border-radius: 50%;
+      background: #000;
     }
 
     .avatar-image {
       display: block;
-
       width: 100%;
       height: 100%;
-
       border-radius: 50%;
       object-fit: cover;
-
       opacity: 0;
-      transition: opacity 0.2s ease;
+      transition: opacity .2s ease;
     }
 
-    .avatar.loaded .avatar-image {
-      opacity: 1;
-    }
+    .avatar.loaded .avatar-image { opacity: 1; }
 
     .avatar-placeholder {
       position: absolute;
       inset: 4px;
-
       border-radius: 50%;
-      background: var(--skeleton);
-
+      background: #292929;
       animation: shimmer 1.4s ease-in-out infinite;
     }
 
-    .avatar.loaded .avatar-placeholder {
-      display: none;
-    }
+    .avatar { position: relative; }
+
+    .avatar.loaded .avatar-placeholder { display: none; }
 
     @keyframes shimmer {
-      0%, 100% {
-        background: #242424;
-      }
-
-      50% {
-        background: #353535;
-      }
+      50% { background: #383838; }
     }
-
-    /* MAIN CONTENT */
 
     main {
-      position: relative;
-
-      width: 100%;
       min-height: 100vh;
       min-height: 100dvh;
-
-      padding-top: calc(76px + env(safe-area-inset-top));
-      padding-bottom: calc(44px + env(safe-area-inset-bottom));
+      padding: calc(76px + env(safe-area-inset-top)) 20px 60px;
     }
-
-    /* FOOTER */
 
     .footer {
       position: fixed;
-      left: 0;
-      bottom: 0;
-      z-index: 100;
-
-      width: 100%;
-
-      padding:
-        0
-        20px
-        calc(14px + env(safe-area-inset-bottom));
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      pointer-events: none;
-
-      color: rgba(255, 255, 255, 0.38);
-
+      inset: auto 0 0;
+      z-index: 10;
+      padding: 0 20px calc(14px + env(safe-area-inset-bottom));
+      text-align: center;
       font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.1px;
+      color: rgba(255,255,255,.38);
       line-height: 1;
+      pointer-events: none;
     }
 
-    /* MOBILE */
-
-    @media (max-width: 480px) {
-      .header {
-        padding-left: 20px;
-        padding-right: 20px;
-      }
+    .footer a {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      pointer-events: auto;
     }
   </style>
 </head>
 
 <body>
-
   <header class="header">
-
     <div class="brand">
-      <img
-        src="./membu.png"
-        alt="Membu"
-        class="brand-logo"
-      >
-
+      <img src="./membu.png" alt="Membu" class="brand-logo">
       <span class="brand-label">LABS</span>
     </div>
 
     <div class="avatar" id="avatar">
       <div class="avatar-placeholder"></div>
-
       <div class="avatar-inner">
-        <img
-          class="avatar-image"
-          id="avatarImage"
-          alt="Аватар пользователя"
-        >
+        <img id="avatarImage" class="avatar-image" alt="Аватар пользователя">
       </div>
     </div>
-
   </header>
 
-  <main>
-    <!-- Здесь появится содержимое Membu Labs -->
-  </main>
+  <main></main>
 
   <footer class="footer">
-    Сделано @ibartyom
+    Сделано <a href="https://t.me/ibartyom" target="_blank" rel="noopener noreferrer">@ibartyom</a>
   </footer>
 
   <script>
@@ -307,30 +183,19 @@
     if (tg) {
       tg.ready();
       tg.expand();
-
       tg.setHeaderColor("#000000");
       tg.setBackgroundColor("#000000");
     }
 
-    // Telegram avatar
-
     const avatar = document.getElementById("avatar");
     const avatarImage = document.getElementById("avatarImage");
-
     const photoUrl = tg?.initDataUnsafe?.user?.photo_url;
 
     if (photoUrl) {
-      avatarImage.onload = () => {
-        avatar.classList.add("loaded");
-      };
-
-      avatarImage.onerror = () => {
-        avatar.classList.remove("loaded");
-      };
-
+      avatarImage.onload = () => avatar.classList.add("loaded");
+      avatarImage.onerror = () => avatar.classList.remove("loaded");
       avatarImage.src = photoUrl;
     }
   </script>
-
 </body>
 </html>
