@@ -55,8 +55,8 @@
       position: fixed;
       inset: 0 0 auto;
       z-index: 10;
-      height: calc(76px + env(safe-area-inset-top));
-      padding: calc(22px + env(safe-area-inset-top)) 20px 0;
+      height: calc(80px + env(safe-area-inset-top));
+      padding: calc(23px + env(safe-area-inset-top)) 21px 0;
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
@@ -74,8 +74,8 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 9px;
-      height: 32px;
+      gap: 10px;
+      height: 34px;
       pointer-events: none;
     }
 
@@ -84,7 +84,7 @@
       display: flex;
       align-items: center;
       flex: 0 0 auto;
-      height: 32px;
+      height: 34px;
       width: var(--intro-width, max-content);
       overflow: hidden;
       transition: width .9s cubic-bezier(.22, 1, .36, 1);
@@ -93,10 +93,10 @@
     .intro-text {
       display: flex;
       align-items: center;
-      height: 32px;
+      height: 34px;
       white-space: nowrap;
       color: var(--accent);
-      font: 22px/1 "Super Bubble", sans-serif;
+      font: 23px/1 "Super Bubble", sans-serif;
       transition:
         opacity .65s ease,
         filter .85s ease,
@@ -125,8 +125,8 @@
       position: absolute;
       left: 0;
       top: 50%;
-      width: var(--logo-width, 30px);
-      height: 30px;
+      width: var(--logo-width, 32px);
+      height: 32px;
       background: var(--accent);
       -webkit-mask: url("./membu.png") center / contain no-repeat;
       mask: url("./membu.png") center / contain no-repeat;
@@ -142,14 +142,14 @@
     .brand-label {
       display: flex;
       align-items: center;
-      height: 32px;
+      height: 34px;
       white-space: nowrap;
       color: #fff;
-      font: 22px/1 "Super Bubble", sans-serif;
+      font: 23px/1 "Super Bubble", sans-serif;
     }
 
     .brand.finished .brand-word {
-      width: var(--logo-width, 30px);
+      width: var(--logo-width, 32px);
     }
 
     .brand.finished .intro-text {
@@ -168,8 +168,8 @@
 
     .avatar {
       position: relative;
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       padding: 2px;
       flex-shrink: 0;
       border-radius: 50%;
@@ -223,7 +223,7 @@
     main {
       min-height: 100vh;
       min-height: 100dvh;
-      padding: calc(76px + env(safe-area-inset-top)) 20px 60px;
+      padding: calc(80px + env(safe-area-inset-top)) 21px 60px;
     }
 
     /* FOOTER */
@@ -232,53 +232,28 @@
       position: fixed;
       inset: auto 0 0;
       z-index: 20;
-      padding: 0 20px calc(14px + env(safe-area-inset-bottom));
+      padding: 0 20px calc(16px + env(safe-area-inset-bottom));
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 7px;
-    }
-
-    .footer-label {
-      height: 34px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 14px;
-      border-radius: 999px;
-      background: #252525;
-      border: 0;
-      color: rgba(255,255,255,.78);
-      font-size: 11px;
-      line-height: 1;
+      color: rgba(255,255,255,.65);
+      font-size: 12px;
+      line-height: 1.4;
       letter-spacing: .1px;
-      white-space: nowrap;
     }
 
-    .footer-telegram {
-      width: 34px;
-      height: 34px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: #252525;
-      border: 0;
-      color: rgba(255,255,255,.88);
-      text-decoration: none;
-      transition: transform .18s ease;
+    .footer-username {
+      margin-left: 3px;
+      color: rgba(255,255,255,.9);
+      text-decoration: underline;
+      text-decoration-color: rgba(255,255,255,.5);
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
+      transition: opacity .18s ease;
     }
 
-    .footer-telegram:active {
-      transform: scale(.93);
-    }
-
-    .footer-telegram svg {
-      width: 15px;
-      height: 15px;
-      display: block;
-      fill: currentColor;
+    .footer-username:active {
+      opacity: .6;
     }
   </style>
 </head>
@@ -304,23 +279,14 @@
 
   <main></main>
 
-  <footer class="footer" id="footer">
-    <div class="footer-label" id="footerLabel">
-      Сделано ibartyom
-    </div>
-
+  <footer class="footer">
+    <span>Сделано</span>
     <a
-      class="footer-telegram"
-      id="footerTelegram"
+      class="footer-username"
       href="https://t.me/ibartyom"
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Telegram ibartyom"
-    >
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M21.7 4.35a1.5 1.5 0 0 0-1.55-.23L2.5 10.9c-1.2.47-1.18 1.15-.22 1.45l4.53 1.42 1.74 5.4c.21.6.1.84.72.84.48 0 .7-.22.97-.48l2.2-2.14 4.58 3.38c.84.46 1.44.22 1.65-.78l3.01-14.2c.3-1.25-.47-1.82-1.98-1.44ZM8.06 13.45l9.88-6.23c.49-.3.94-.14.57.2l-8.15 7.36-.32 3.44-1.98-4.77Z"/>
-      </svg>
-    </a>
+    >ibartyom</a>
   </footer>
 
   <script>
@@ -352,7 +318,7 @@
     }
 
     async function startIntro() {
-      await document.fonts.load('22px "Super Bubble"');
+      await document.fonts.load('23px "Super Bubble"');
 
       splitLetters(introText, "MEMBU");
       splitLetters(brandLabel, "LABS", 6);
@@ -363,7 +329,7 @@
       const logoAsset = new Image();
 
       logoAsset.onload = () => {
-        const width = 30 * logoAsset.naturalWidth / logoAsset.naturalHeight;
+        const width = 32 * logoAsset.naturalWidth / logoAsset.naturalHeight;
         brandWord.style.setProperty("--logo-width", `${width}px`);
       };
 
