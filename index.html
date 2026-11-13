@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -85,8 +84,9 @@
       align-items: center;
       flex: 0 0 auto;
       height: 32px;
+      width: var(--intro-width, max-content);
       overflow: hidden;
-      transition: width .72s cubic-bezier(.16, 1, .3, 1);
+      transition: width .9s cubic-bezier(.22, 1, .36, 1);
     }
 
     .intro-text {
@@ -97,9 +97,9 @@
       color: var(--accent);
       font: 22px/1 "Super Bubble", sans-serif;
       transition:
-        opacity .58s ease,
-        filter .72s ease,
-        transform .72s ease;
+        opacity .65s ease,
+        filter .85s ease,
+        transform .85s ease;
     }
 
     .intro-text span,
@@ -133,9 +133,9 @@
       filter: blur(5px);
       transform: translateY(-50%) scale(.96);
       transition:
-        opacity .72s ease,
-        filter .72s ease,
-        transform .72s cubic-bezier(.2, .8, .2, 1);
+        opacity .8s ease,
+        filter .85s ease,
+        transform .85s cubic-bezier(.2, .8, .2, 1);
     }
 
     .brand-label {
@@ -167,15 +167,13 @@
 
     .avatar {
       position: relative;
-      display: block;
       width: 34px;
       height: 34px;
-      padding: 1.5px;
+      padding: 2px;
       flex-shrink: 0;
-      border: 0;
       border-radius: 50%;
       background: var(--accent);
-      cursor: pointer;
+      overflow: hidden;
     }
 
     .avatar-inner {
@@ -207,7 +205,6 @@
       border-radius: 50%;
       background: #292929;
       animation: shimmer 1.4s ease-in-out infinite;
-      pointer-events: none;
     }
 
     .avatar.loaded .avatar-placeholder {
@@ -215,121 +212,168 @@
     }
 
     @keyframes shimmer {
-      50% { background: #383838; }
+      50% {
+        background: #383838;
+      }
     }
 
-    /* WELCOME HINT */
+    /* WELCOME TOOLTIP */
 
-    .hint {
+    .welcome-tooltip {
       position: fixed;
       z-index: 20;
-      top: calc(66px + env(safe-area-inset-top));
+      top: calc(22px + env(safe-area-inset-top));
       right: 20px;
-      width: min(310px, calc(100vw - 40px));
-      transform-origin: calc(100% - 16px) 0;
+
+      width: 34px;
+      height: 34px;
+      padding: 0;
+
+      border: 1px solid rgba(255,255,255,.17);
+      border-radius: 50%;
+      background: rgba(24,22,32,.58);
+
+      -webkit-backdrop-filter: blur(2px) saturate(145%);
+      backdrop-filter: blur(2px) saturate(145%);
+
       opacity: 0;
-      pointer-events: none;
-      transform: scale(.72, .35);
-      filter: blur(7px);
-      visibility: hidden;
-      transition:
-        transform .68s cubic-bezier(.16, 1, .3, 1),
-        opacity .28s ease,
-        filter .55s ease,
-        visibility .68s;
-    }
-
-    .hint.visible {
-      opacity: 1;
-      pointer-events: auto;
-      transform: scale(1, 1);
-      filter: blur(0);
-      visibility: visible;
-    }
-
-    .hint-glass {
-      position: relative;
-      padding: 17px 48px 17px 17px;
-      min-height: 76px;
-      border: 1px solid rgba(255,255,255,.16);
-      border-radius: 21px;
       overflow: visible;
+      isolation: isolate;
+      pointer-events: none;
 
-      background:
-        linear-gradient(
-          135deg,
-          rgba(255,255,255,.105),
-          rgba(255,255,255,.045) 55%,
-          rgba(255,255,255,.065)
-        );
-
-      -webkit-backdrop-filter: blur(22px) saturate(155%);
-      backdrop-filter: blur(22px) saturate(155%);
-
-      box-shadow:
-        0 14px 42px rgba(0,0,0,.38),
-        inset 0 1px 1px rgba(255,255,255,.17),
-        inset 0 -1px 1px rgba(0,0,0,.18);
+      transition:
+        width .95s cubic-bezier(.22, 1, .36, 1),
+        height .85s cubic-bezier(.22, 1, .36, 1),
+        top .95s cubic-bezier(.22, 1, .36, 1),
+        border-radius .8s cubic-bezier(.22, 1, .36, 1),
+        opacity .35s ease,
+        background-color .6s ease;
     }
 
-    /* Rounded pointer */
+    /* Небольшой хвостик, направленный к аватару */
 
-    .hint-glass::before {
+    .welcome-tooltip::before {
       content: "";
       position: absolute;
+      z-index: 0;
       top: -7px;
-      right: 12px;
+      right: 10px;
+
       width: 14px;
       height: 14px;
-      transform: rotate(45deg);
-      border-left: 1px solid rgba(255,255,255,.16);
-      border-top: 1px solid rgba(255,255,255,.16);
+
+      background: rgba(24,22,32,.76);
+      border-top: 1px solid rgba(255,255,255,.17);
+      border-left: 1px solid rgba(255,255,255,.17);
       border-radius: 3px 0 0 0;
 
-      background: rgba(35,35,35,.76);
-      -webkit-backdrop-filter: blur(22px) saturate(155%);
-      backdrop-filter: blur(22px) saturate(155%);
+      transform: rotate(45deg);
+      opacity: 0;
+      transition: opacity .25s ease .25s;
     }
 
-    .hint-text {
-      position: relative;
+    .welcome-content {
+      position: absolute;
+      inset: 0;
       z-index: 1;
-      font-size: 13px;
-      line-height: 1.48;
-      letter-spacing: -.01em;
+
+      display: flex;
+      align-items: center;
+
+      padding: 17px 48px 17px 18px;
+
       color: rgba(255,255,255,.94);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.4;
+
+      opacity: 0;
+      visibility: hidden;
+
+      transition:
+        opacity .3s ease,
+        visibility .3s ease;
     }
 
-    /* Close button — deliberately not glass */
-
-    .hint-close {
+    .welcome-close {
       position: absolute;
       z-index: 2;
-      top: 9px;
-      right: 9px;
-      width: 27px;
-      height: 27px;
-      display: grid;
-      place-items: center;
-      border: 0;
+      top: 12px;
+      right: 12px;
+
+      width: 24px;
+      height: 24px;
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border: 1px solid rgba(255,255,255,.07);
       border-radius: 50%;
-      background: rgba(20,20,20,.78);
-      color: rgba(255,255,255,.76);
+      background: rgba(0,0,0,.34);
+      color: rgba(255,255,255,.8);
+
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+
+      opacity: 0;
+      visibility: hidden;
       cursor: pointer;
-      transition: background .18s ease, color .18s ease;
+
+      transition:
+        opacity .25s ease,
+        background-color .2s ease,
+        visibility .25s ease;
     }
 
-    .hint-close:active {
-      background: rgba(10,10,10,.95);
-      color: #fff;
+    .welcome-close::before,
+    .welcome-close::after {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 1.3px;
+      border-radius: 2px;
+      background: currentColor;
     }
 
-    .hint-close svg {
-      width: 13px;
-      height: 13px;
-      stroke: currentColor;
-      stroke-width: 1.8;
-      stroke-linecap: round;
+    .welcome-close::before {
+      transform: rotate(45deg);
+    }
+
+    .welcome-close::after {
+      transform: rotate(-45deg);
+    }
+
+    .welcome-close:active {
+      background: rgba(0,0,0,.52);
+    }
+
+    /* OPEN STATE */
+
+    .welcome-tooltip.open {
+      top: calc(66px + env(safe-area-inset-top));
+      width: calc(100vw - 40px);
+      height: 112px;
+      border-radius: 22px;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .welcome-tooltip.open::before {
+      opacity: 1;
+    }
+
+    .welcome-tooltip.open .welcome-content {
+      opacity: 1;
+      visibility: visible;
+      transition-delay: .42s;
+    }
+
+    .welcome-tooltip.open .welcome-close {
+      opacity: 1;
+      visibility: visible;
+      transition-delay: .48s;
     }
 
     /* CONTENT */
@@ -361,10 +405,15 @@
       pointer-events: auto;
     }
 
+    /* REDUCED MOTION */
+
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: .01ms !important;
+      .welcome-tooltip,
+      .welcome-tooltip::before,
+      .welcome-content,
+      .welcome-close {
         transition-duration: .01ms !important;
+        transition-delay: 0ms !important;
       }
     }
   </style>
@@ -377,30 +426,32 @@
         <span class="intro-text" id="introText">MEMBU</span>
         <span class="logo" id="logo"></span>
       </div>
+
       <span class="brand-label" id="brandLabel">LABS</span>
     </div>
 
-    <button class="avatar" id="avatar" type="button" aria-label="Открыть приветствие">
+    <div class="avatar" id="avatar">
       <div class="avatar-placeholder"></div>
       <div class="avatar-inner">
-        <img id="avatarImage" class="avatar-image" alt="">
+        <img id="avatarImage" class="avatar-image" alt="Аватар пользователя">
       </div>
-    </button>
+    </div>
   </header>
 
-  <aside class="hint" id="welcomeHint" role="status" aria-live="polite">
-    <div class="hint-glass">
-      <p class="hint-text">
-        Мембу живет здесь, так что ты можешь обратиться к нему в любой момент
-      </p>
+  <!-- WELCOME TOOLTIP -->
 
-      <button class="hint-close" id="hintClose" type="button" aria-label="Закрыть подсказку">
-        <svg viewBox="0 0 16 16" fill="none">
-          <path d="M4 4L12 12M12 4L4 12"/>
-        </svg>
-      </button>
+  <div class="welcome-tooltip" id="welcomeTooltip">
+    <div class="welcome-content">
+      Мембу живет здесь, так что ты можешь обратиться к нему в любой момент
     </div>
-  </aside>
+
+    <button
+      class="welcome-close"
+      id="welcomeClose"
+      aria-label="Закрыть подсказку"
+      type="button"
+    ></button>
+  </div>
 
   <main></main>
 
@@ -418,7 +469,7 @@
       tg.setBackgroundColor("#000000");
     }
 
-    // BRAND INTRO
+    // INTRO ANIMATION
 
     const brand = document.getElementById("brand");
     const brandWord = document.getElementById("brandWord");
@@ -443,17 +494,18 @@
       splitLetters(brandLabel, "LABS", 6);
 
       const wordWidth = introText.getBoundingClientRect().width;
-      brandWord.style.width = `${wordWidth}px`;
+      brandWord.style.setProperty("--intro-width", `${wordWidth}px`);
 
       const logoAsset = new Image();
 
       logoAsset.onload = () => {
         const width = 30 * logoAsset.naturalWidth / logoAsset.naturalHeight;
-        brand.style.setProperty("--logo-width", `${width}px`);
+        brandWord.style.setProperty("--logo-width", `${width}px`);
       };
 
       logoAsset.src = "./membu.png";
 
+      // Пауза после появления всей надписи
       setTimeout(() => {
         brand.classList.add("finished");
       }, 2300);
@@ -473,35 +525,20 @@
       avatarImage.src = photoUrl;
     }
 
-    // WELCOME HINT
+    // WELCOME TOOLTIP
 
-    const hint = document.getElementById("welcomeHint");
-    const hintClose = document.getElementById("hintClose");
+    const welcomeTooltip = document.getElementById("welcomeTooltip");
+    const welcomeClose = document.getElementById("welcomeClose");
 
-    let hintTimer;
+    // Небольшая задержка перед появлением
+    setTimeout(() => {
+      welcomeTooltip.classList.add("open");
+    }, 650);
 
-    function openHint() {
-      hint.classList.add("visible");
-    }
-
-    function closeHint() {
-      hint.classList.remove("visible");
-      clearTimeout(hintTimer);
-    }
-
-    // Show shortly after the intro begins to settle.
-    hintTimer = setTimeout(openHint, 3100);
-
-    // Avatar can reopen the hint.
-    avatar.addEventListener("click", () => {
-      if (hint.classList.contains("visible")) {
-        closeHint();
-      } else {
-        openHint();
-      }
+    // Закрытие с обратной анимацией
+    welcomeClose.addEventListener("click", () => {
+      welcomeTooltip.classList.remove("open");
     });
-
-    hintClose.addEventListener("click", closeHint);
   </script>
 </body>
 </html>
