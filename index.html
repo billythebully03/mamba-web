@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -229,9 +230,9 @@
       height: 34px;
       padding: 0;
 
-      border: 1px solid rgba(255,255,255,.17);
+      border: 1px solid rgba(255,255,255,.15);
       border-radius: 50%;
-      background: rgba(24,22,32,.58);
+      background: rgba(24,22,32,.76);
 
       -webkit-backdrop-filter: blur(2px) saturate(145%);
       backdrop-filter: blur(2px) saturate(145%);
@@ -242,34 +243,34 @@
       pointer-events: none;
 
       transition:
-        width .95s cubic-bezier(.22, 1, .36, 1),
-        height .85s cubic-bezier(.22, 1, .36, 1),
-        top .95s cubic-bezier(.22, 1, .36, 1),
-        border-radius .8s cubic-bezier(.22, 1, .36, 1),
-        opacity .35s ease,
-        background-color .6s ease;
+        width .55s cubic-bezier(.22, 1, .36, 1),
+        height .5s cubic-bezier(.22, 1, .36, 1),
+        top .55s cubic-bezier(.22, 1, .36, 1),
+        border-radius .45s cubic-bezier(.22, 1, .36, 1),
+        opacity .2s ease;
     }
 
-    /* Небольшой хвостик, направленный к аватару */
+    /* INTEGRATED POINTER */
 
     .welcome-tooltip::before {
       content: "";
       position: absolute;
-      z-index: 0;
-      top: -7px;
-      right: 10px;
+      z-index: -1;
+      top: -6px;
+      right: 9px;
 
-      width: 14px;
-      height: 14px;
+      width: 13px;
+      height: 13px;
 
       background: rgba(24,22,32,.76);
-      border-top: 1px solid rgba(255,255,255,.17);
-      border-left: 1px solid rgba(255,255,255,.17);
+      border-top: 1px solid rgba(255,255,255,.15);
+      border-left: 1px solid rgba(255,255,255,.15);
       border-radius: 3px 0 0 0;
 
       transform: rotate(45deg);
       opacity: 0;
-      transition: opacity .25s ease .25s;
+
+      transition: opacity .15s ease .12s;
     }
 
     .welcome-content {
@@ -280,7 +281,7 @@
       display: flex;
       align-items: center;
 
-      padding: 17px 48px 17px 18px;
+      padding: 12px 44px 12px 16px;
 
       color: rgba(255,255,255,.94);
       font-size: 14px;
@@ -291,15 +292,15 @@
       visibility: hidden;
 
       transition:
-        opacity .3s ease,
-        visibility .3s ease;
+        opacity .2s ease,
+        visibility .2s ease;
     }
 
     .welcome-close {
       position: absolute;
       z-index: 2;
-      top: 12px;
-      right: 12px;
+      top: 10px;
+      right: 10px;
 
       width: 24px;
       height: 24px;
@@ -314,17 +315,14 @@
       background: rgba(0,0,0,.34);
       color: rgba(255,255,255,.8);
 
-      -webkit-backdrop-filter: none;
-      backdrop-filter: none;
-
       opacity: 0;
       visibility: hidden;
       cursor: pointer;
 
       transition:
-        opacity .25s ease,
-        background-color .2s ease,
-        visibility .25s ease;
+        opacity .18s ease,
+        background-color .15s ease,
+        visibility .18s ease;
     }
 
     .welcome-close::before,
@@ -354,8 +352,8 @@
     .welcome-tooltip.open {
       top: calc(66px + env(safe-area-inset-top));
       width: calc(100vw - 40px);
-      height: 112px;
-      border-radius: 22px;
+      height: 78px;
+      border-radius: 19px;
       opacity: 1;
       pointer-events: auto;
     }
@@ -367,13 +365,13 @@
     .welcome-tooltip.open .welcome-content {
       opacity: 1;
       visibility: visible;
-      transition-delay: .42s;
+      transition-delay: .2s;
     }
 
     .welcome-tooltip.open .welcome-close {
       opacity: 1;
       visibility: visible;
-      transition-delay: .48s;
+      transition-delay: .24s;
     }
 
     /* CONTENT */
@@ -405,8 +403,6 @@
       pointer-events: auto;
     }
 
-    /* REDUCED MOTION */
-
     @media (prefers-reduced-motion: reduce) {
       .welcome-tooltip,
       .welcome-tooltip::before,
@@ -437,8 +433,6 @@
       </div>
     </div>
   </header>
-
-  <!-- WELCOME TOOLTIP -->
 
   <div class="welcome-tooltip" id="welcomeTooltip">
     <div class="welcome-content">
@@ -505,7 +499,6 @@
 
       logoAsset.src = "./membu.png";
 
-      // Пауза после появления всей надписи
       setTimeout(() => {
         brand.classList.add("finished");
       }, 2300);
@@ -530,12 +523,10 @@
     const welcomeTooltip = document.getElementById("welcomeTooltip");
     const welcomeClose = document.getElementById("welcomeClose");
 
-    // Небольшая задержка перед появлением
     setTimeout(() => {
       welcomeTooltip.classList.add("open");
-    }, 650);
+    }, 450);
 
-    // Закрытие с обратной анимацией
     welcomeClose.addEventListener("click", () => {
       welcomeTooltip.classList.remove("open");
     });
